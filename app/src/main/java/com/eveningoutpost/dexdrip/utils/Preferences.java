@@ -1061,7 +1061,7 @@ public class Preferences extends PreferenceActivity {
                     try {
                         collectionCategory.addPreference(transmitterId);
                     } catch (NullPointerException e) {
-                        Log.wtf(TAG, "Null pointer adding G5 prefs ", e);
+                        Log.wtf(TAG, "Null pointer adding MyPancreas prefs ", e);
                     }
                 }
 

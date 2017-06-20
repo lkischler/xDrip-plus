@@ -16,6 +16,7 @@ import com.eveningoutpost.dexdrip.Services.DexCollectionService;
 import com.eveningoutpost.dexdrip.Services.DexShareCollectionService;
 import com.eveningoutpost.dexdrip.Services.DoNothingService;
 import com.eveningoutpost.dexdrip.Services.G5CollectionService;
+import com.eveningoutpost.dexdrip.Services.MyPancreasCollectionService;
 import com.eveningoutpost.dexdrip.Services.SyncService;
 import com.eveningoutpost.dexdrip.Services.WifiCollectionService;
 import com.eveningoutpost.dexdrip.UtilityModels.pebble.PebbleUtil;
@@ -142,6 +143,10 @@ public class CollectionServiceStarter {
         return collection_method.equals("WifiWixel");
     }
 
+    public static boolean isMyPancreas(String collection_method) {
+        return collection_method.equals("MyPancreas");
+    }
+
     public static boolean isFollower(String collection_method) {
         return collection_method.equals("Follower");
     }
@@ -162,6 +167,7 @@ public class CollectionServiceStarter {
             stopBtShareService();
             stopFollowerThread();
             stopG5ShareService();
+            stopMyPancreasService();
 
             if (prefs.getBoolean("wear_sync", false)) {//KS
                 boolean enable_wearG5 = prefs.getBoolean("enable_wearG5", false);
@@ -177,6 +183,7 @@ public class CollectionServiceStarter {
         } else if (isWifiWixel(collection_method)) {
             Log.d("DexDrip", "Starting wifi wixel collector");
             stopBtWixelService();
+            stopMyPancreasService();
             stopFollowerThread();
             stopBtShareService();
             stopG5ShareService();
@@ -188,6 +195,7 @@ public class CollectionServiceStarter {
             stopFollowerThread();
             stopWifWixelThread();
             stopG5ShareService();
+            stopMyPancreasService();
 
             if (prefs.getBoolean("wear_sync", false)) {//KS
                 boolean enable_wearG5 = prefs.getBoolean("enable_wearG5", false);
@@ -206,6 +214,7 @@ public class CollectionServiceStarter {
             stopBtWixelService();
             stopWifWixelThread();
             stopBtShareService();
+            stopMyPancreasService();
 
             if (prefs.getBoolean("wear_sync", false)) {//KS
                 boolean enable_wearG5 = prefs.getBoolean("enable_wearG5", false);
@@ -223,6 +232,7 @@ public class CollectionServiceStarter {
             Log.d("DexDrip", "Starting wifi and bt wixel collector");
             stopBtWixelService();
             stopFollowerThread();
+            stopMyPancreasService();
             stopWifWixelThread();
             stopBtShareService();
             stopG5ShareService();
@@ -247,9 +257,18 @@ public class CollectionServiceStarter {
             stopWifWixelThread();
             stopBtShareService();
             stopBtWixelService();
+            stopMyPancreasService();
             stopG5ShareService();
 
             startFollowerThread();
+        } else if(isMyPancreas(collection_method)){
+            stopWifWixelThread();
+            stopBtShareService();
+            stopBtWixelService();
+            stopG5ShareService();
+            stopFollowerThread();
+
+            startMyPancreas();
         }
 
         if (prefs.getBoolean("broadcast_to_pebble", false) && (PebbleUtil.getCurrentPebbleSyncType(prefs) != 1)) {
@@ -291,6 +310,7 @@ public class CollectionServiceStarter {
         CollectionServiceStarter collectionServiceStarter = new CollectionServiceStarter(context);
         collectionServiceStarter.stopBtShareService();
         collectionServiceStarter.stopBtWixelService();
+        collectionServiceStarter.stopMyPancreasService();
         collectionServiceStarter.stopWifWixelThread();
         collectionServiceStarter.stopFollowerThread();
         collectionServiceStarter.stopG5ShareService();
@@ -302,6 +322,7 @@ public class CollectionServiceStarter {
         CollectionServiceStarter collectionServiceStarter = new CollectionServiceStarter(context);
         collectionServiceStarter.stopBtShareService();
         collectionServiceStarter.stopBtWixelService();
+        collectionServiceStarter.stopMyPancreasService();
         collectionServiceStarter.stopWifWixelThread();
         collectionServiceStarter.stopFollowerThread();
         collectionServiceStarter.stopG5ShareService();
@@ -330,6 +351,7 @@ public class CollectionServiceStarter {
         CollectionServiceStarter collectionServiceStarter = new CollectionServiceStarter(context);
         collectionServiceStarter.stopBtShareService();
         collectionServiceStarter.stopBtWixelService();
+        collectionServiceStarter.stopMyPancreasService();
         collectionServiceStarter.stopG5ShareService();
         Log.d(TAG, "stopBtService should have called onDestroy");
     }
@@ -344,6 +366,18 @@ public class CollectionServiceStarter {
     private void stopBtWixelService() {
         Log.d(TAG, "stopping bt wixel service");
         this.mContext.stopService(new Intent(this.mContext, DexCollectionService.class));
+    }
+
+    private void startMyPancreas() {
+        Log.d(TAG, "starting myPancreas service");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            this.mContext.startService(new Intent(this.mContext, MyPancreasCollectionService.class));
+        }
+    }
+
+    private void stopMyPancreasService() {
+        Log.d(TAG, "stopping myPancreas service");
+        this.mContext.stopService(new Intent(this.mContext, MyPancreasCollectionService.class));
     }
 
     private void startBtShareService() {
