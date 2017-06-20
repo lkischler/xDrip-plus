@@ -2037,6 +2037,7 @@ public class Home extends ActivityWithMenu {
         // port this lot to DexCollectionType to avoid multiple lookups of the same preference
         boolean isDexbridgeWixel = CollectionServiceStarter.isDexBridgeOrWifiandDexBridge();
         boolean isWifiBluetoothWixel = CollectionServiceStarter.isWifiandBTWixel(getApplicationContext());
+        boolean isMyPancreas = CollectionServiceStarter.isMyPancreas(getApplicationContext());
         isBTShare = CollectionServiceStarter.isBTShare(getApplicationContext());
         isG5Share = CollectionServiceStarter.isBTG5(getApplicationContext());
         boolean isWifiWixel = CollectionServiceStarter.isWifiWixel(getApplicationContext());
@@ -2047,7 +2048,7 @@ public class Home extends ActivityWithMenu {
         if (isG5Share) {
             updateCurrentBgInfoCommon(notificationText);
         }
-        if (isBTWixel || isDexbridgeWixel || isWifiBluetoothWixel) {
+        if (isBTWixel || isDexbridgeWixel || isWifiBluetoothWixel || isMyPancreas) {
             updateCurrentBgInfoForBtBasedWixel(notificationText);
         }
         if (isWifiWixel || isWifiBluetoothWixel) {

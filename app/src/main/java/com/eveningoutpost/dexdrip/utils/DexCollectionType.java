@@ -26,6 +26,7 @@ public enum DexCollectionType {
     WifiDexBridgeWixel("WifiDexbridgeWixel"),
     Follower("Follower"),
     LibreAlarm("LibreAlarm"),
+    MyPancreas("MyPancreas"),
     Manual("Manual");
 
     String internalName;
@@ -51,14 +52,14 @@ public enum DexCollectionType {
             mapToInternalName.put(dct.internalName, dct);
         }
 
-        Collections.addAll(usesBluetooth, BluetoothWixel, DexcomShare, DexbridgeWixel, LimiTTer, WifiBlueToothWixel, DexcomG5, WifiDexBridgeWixel);
-        Collections.addAll(usesBtWixel, BluetoothWixel, LimiTTer, WifiBlueToothWixel);
+        Collections.addAll(usesBluetooth, BluetoothWixel, DexcomShare, DexbridgeWixel, LimiTTer, WifiBlueToothWixel, DexcomG5, WifiDexBridgeWixel, MyPancreas);
+        Collections.addAll(usesBtWixel, BluetoothWixel, LimiTTer, WifiBlueToothWixel, MyPancreas);
         Collections.addAll(usesWifi, WifiBlueToothWixel,WifiWixel,WifiDexBridgeWixel);
         Collections.addAll(usesXbridge, DexbridgeWixel,WifiDexBridgeWixel);
-        Collections.addAll(usesFiltered, DexbridgeWixel, WifiDexBridgeWixel, DexcomG5, WifiWixel, Follower); // Bluetooth and Wifi+Bluetooth need dynamic mode
+        Collections.addAll(usesFiltered, DexbridgeWixel, WifiDexBridgeWixel, DexcomG5, WifiWixel, Follower, MyPancreas); // Bluetooth and Wifi+Bluetooth need dynamic mode
         Collections.addAll(usesLibre, LimiTTer, LibreAlarm);
-        Collections.addAll(usesBattery, BluetoothWixel, DexbridgeWixel, WifiBlueToothWixel, WifiDexBridgeWixel, Follower, LimiTTer, LibreAlarm); // parakeet separate
-        Collections.addAll(usesDexcomRaw, BluetoothWixel, DexbridgeWixel, WifiBlueToothWixel, DexcomG5, WifiDexBridgeWixel);
+        Collections.addAll(usesBattery, BluetoothWixel, DexbridgeWixel, WifiBlueToothWixel, WifiDexBridgeWixel, Follower, LimiTTer, LibreAlarm, MyPancreas); // parakeet separate
+        Collections.addAll(usesDexcomRaw, BluetoothWixel, DexbridgeWixel, WifiBlueToothWixel, DexcomG5, WifiDexBridgeWixel, MyPancreas);
     }
 
 

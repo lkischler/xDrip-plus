@@ -1057,8 +1057,15 @@ public class Preferences extends PreferenceActivity {
                //     }
                // }
 
+                if (collectionType == DexCollectionType.MyPancreas) {
+                    try {
+                        collectionCategory.addPreference(transmitterId);
+                    } catch (NullPointerException e) {
+                        Log.wtf(TAG, "Null pointer adding G5 prefs ", e);
+                    }
+                }
 
-                final PreferenceScreen g5_settings_screen = (PreferenceScreen) findPreference("xdrip_plus_g5_extra_settings");
+                    final PreferenceScreen g5_settings_screen = (PreferenceScreen) findPreference("xdrip_plus_g5_extra_settings");
                 if (collectionType == DexCollectionType.DexcomG5) {
                     try {
                         collectionCategory.addPreference(transmitterId);
@@ -1429,7 +1436,7 @@ public class Preferences extends PreferenceActivity {
                      //   collectionCategory.addPreference(closeGatt);
                     }
 
-                    if (collectionType == DexCollectionType.DexcomG5) {
+                    if (collectionType == DexCollectionType.DexcomG5 || collectionType == DexCollectionType.MyPancreas) {
                         collectionCategory.addPreference(transmitterId);
                     }
 

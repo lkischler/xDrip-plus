@@ -93,6 +93,15 @@ public class CollectionServiceStarter {
         return false;
     }
 
+    public static boolean isMyPancreas(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String collection_method = prefs.getString("dex_collection_method", "BluetoothWixel");
+        if (collection_method.compareTo("MyPancreas") == 0) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isBTShare(String collection_method) {
         return collection_method.equals("DexcomShare");
     }
